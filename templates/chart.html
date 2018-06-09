@@ -2,13 +2,13 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>House of Commons (Age, Gender, Size) </title>
+	<title>Turnovers Win Championships </title>
 	<link href='http://fonts.googleapis.com/css?family=UnifrakturMaguntia' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-	<h2>House of Commons (Age/Gender/Size)</h2>
+	<h2>Turnovers Win Championships</h2>
 
 	<p id="chart"></p>
 
@@ -28,15 +28,46 @@
 
 		// Various scales. These domains make assumptions of data, naturally.
 		//var xScale = d3.scale.log().domain([0, 1e5]).range([0, width]),
-		var 	xScale = d3.scale.log().domain([1, 55]).range([0, width]),  
-				yScale = d3.scale.linear().domain([30, 60]).range([height, 0]),
-				radiusScale = d3.scale.sqrt().domain([0, 5e2]).range([0, 100]),
+		var 	xScale = d3.scale.linear().domain([0, 50]).range([0, width]),  
+				yScale = d3.scale.linear().domain([0, 50]).range([height, 0]),
+				radiusScale = d3.scale.linear().domain([0, 50]).range([0, 100]),
 				//colorScale = d3.scale.category10();
 				colorScale = d3.scale.ordinal()
 					.range([ 
-						"#B70504",//Labour 
-						"#29A2D7",//Conservative
-						"#FECC26" //Liberal Democrat
+						"#97233F",//ARI 
+						"#A71930",//ATL
+						"#241773", //BAL
+						'#00338D',
+						'#0085CA',
+						'#0B162A',
+						'#FB4F14',
+						'#FF3C00', //Browns
+						'#003594',
+						'#FC4C02',
+						'#005A8B',
+						'#183028',
+						'#03202F',
+						'#003A70',
+						'#101820',
+						'#C8102E',
+						'#0073CF', //LAC
+						'#041E42', //LAR
+						'#008E97',
+						'#4F2683',
+						'#B0B7BC', //NE
+						'#D3BC8D', //NO
+						'#0B2265',
+						'#203731',
+						'#000000',
+						'#004953',
+						'#FFB81C',
+						'#0073CF', //SD
+						'#69BE28', //SEA
+						'#A6192E', //49ers
+						'#041E42', //STL
+						'#C8102E',
+						'#002244',
+						'#773141'
 						]
 					);
 
@@ -68,7 +99,7 @@
 					.attr("text-anchor", "end")
 					.attr("x", width)
 					.attr("y", height - 6)
-					.text("Gender Parity (Females)");
+					.text("Takeaways");
 
 				// Add a y-axis label.
 				svg.append("text")
@@ -77,7 +108,7 @@
 					.attr("y", 6)
 					.attr("dy", ".75em")
 					.attr("transform", "rotate(-90)")
-					.text("Age (years)");
+					.text("Giveaways");
 
 				// Add the year label; the value is set on transition.
 				var label = svg.append("text")
@@ -141,7 +172,7 @@
 		// After the transition finishes, you can mouseover to change the year.
 		function enableInteraction() {
 			var yearScale = d3.scale.linear()
-				.domain([1970, 2012])
+				.domain([2009, 2017])
 				.range([box.x + 10, box.x + box.width - 10])
 				.clamp(true);
 
@@ -170,7 +201,7 @@
 		// Tweens the entire chart by first tweening the year, and then the data.
 		// For the interpolated data, the dots and label are redrawn.
 		function tweenYear() {
-			var year = d3.interpolateNumber(1970, 2012);
+			var year = d3.interpolateNumber(2009, 2017);
 			return function(t) { displayYear(year(t)); };
 		}
 
@@ -184,11 +215,11 @@
 		function interpolateData(year) {
 			return parliment.map(function(d) {
 			return {
-				name: d.party,
-				region: d.party,
-				circleSize: interpolateValues(d.Total, year),
-				horizontal: interpolateValues(d.Femalepercent, year),
-				vertical: interpolateValues(d.averageAge, year)
+				name: d.team_id,
+				region: d.team_id,
+				circleSize: interpolateValues(d.total_wins, year),
+				horizontal: interpolateValues(d.takeaways, year),
+				vertical: interpolateValues(d.giveaways, year)
 			};
 			});
 		}
