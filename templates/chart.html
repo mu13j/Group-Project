@@ -172,7 +172,7 @@
 		// After the transition finishes, you can mouseover to change the year.
 		function enableInteraction() {
 			var yearScale = d3.scale.linear()
-				.domain([2009, 2017])
+				.domain([1989, 2017])
 				.range([box.x + 10, box.x + box.width - 10])
 				.clamp(true);
 
@@ -201,7 +201,7 @@
 		// Tweens the entire chart by first tweening the year, and then the data.
 		// For the interpolated data, the dots and label are redrawn.
 		function tweenYear() {
-			var year = d3.interpolateNumber(2009, 2017);
+			var year = d3.interpolateNumber(1989, 2017);
 			return function(t) { displayYear(year(t)); };
 		}
 
@@ -215,10 +215,10 @@
 		function interpolateData(year) {
 			return parliment.map(function(d) {
 			return {
-				name: d.team_id,
-				region: d.team_id,
-				circleSize: interpolateValues(d.total_wins, year),
-				horizontal: interpolateValues(d.takeaways, year),
+				name: d.team,
+				region: d.team,
+				circleSize: interpolateValues(d.win, year),
+				horizontal: interpolateValues(d.turnovers, year),
 				vertical: interpolateValues(d.giveaways, year)
 			};
 			});
