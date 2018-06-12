@@ -25,6 +25,14 @@ app = Flask(__name__)
 def index():
     return render_template('chart.html')
 
+@app.route("/pass_yards")
+def pass_yds():
+    return render_template('pass_yards.html')
+
+@app.route("/rush_yards")
+def rush_yds():
+    return render_template('rush_yards.html')
+
 @app.route('/data.json')
 def showjson():
     with open('data.json') as f:
