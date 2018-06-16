@@ -158,5 +158,9 @@ def table():
     a={'teamseason':teamseason,'team':team,'season':season,'pass_yds':pass_yds,'rush_yds':rush_yds,'opp_pass_yds':opp_pass_yd,'opp_rush_yds':opp_rush_yds,'pts':pts,'pts_against':pts_against,'takeaways':takeaways,'turnovers':turnovers,'win':win}
     return jsonify(a)
 
+@app.route('/regression')
+def regression():
+    return jsonify([{'passing':.3884},{'rushing':.454},{'points':.8198},{'turnover':.474}])
+
 if __name__ == "__main__":
     app.run(debug=True)

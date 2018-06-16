@@ -10,6 +10,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 	<h2>Turnovers Win Championships</h2>
@@ -32,6 +33,7 @@
 		  </div>
 
 	<p id="chart"></p>
+	<div id='gauge'></div>
 
 	<script src="static/d3.js"></script>
 	<script>
@@ -50,7 +52,7 @@
 		// Various scales. These domains make assumptions of data, naturally.
 		//var xScale = d3.scale.log().domain([0, 1e5]).range([0, width]),
 		var 	xScale = d3.scale.linear().domain([10, 50]).range([0, width]),  
-				yScale = d3.scale.linear().domain([5, 50]).range([height, 0]),
+				yScale = d3.scale.linear().domain([5, 55]).range([height, 0]),
 				radiusScale = d3.scale.linear().domain([0, 50]).range([0, 100]),
 				//colorScale = d3.scale.category10();
 				colorScale = d3.scale.ordinal()
@@ -173,7 +175,7 @@
 
 		// Start a transition that interpolates the data based on year.
 		svg.transition()
-			.duration(30000)
+			.duration(50000)
 			.ease("linear")
 			.tween("year", tweenYear)
 			.each("end", enableInteraction);
@@ -257,6 +259,71 @@
 			return a[1];
 		}
 		});
+		function gauge() {
+                // Enter a speed between 0 and 180
+                var level = .474;
+
+                // Trig to calc meter point
+                var degrees = 180 - level*180,
+                    radius = .5;
+                var radians = degrees * Math.PI / 180;
+                var x = radius * Math.cos(radians);
+                var y = radius * Math.sin(radians);
+
+                // Path: may have to change to create a better triangle
+                var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
+                    pathX = String(x),
+                    space = ' ',
+                    pathY = String(y),
+                    pathEnd = ' Z';
+                var path = mainPath.concat(pathX,space,pathY,pathEnd);
+
+                var data = [{ type: 'scatter',
+                x: [0], y:[0],
+                    marker: {size: 28, color:'850000'},
+                    showlegend: false,
+                    name: 'R^2 Adjusted',
+                    text: level,
+                    hoverinfo: 'text+name'},
+                { values: [50/5, 50/5, 50/5, 50/5, 50/5, 50],
+                rotation: 90,
+                text: ['.8-1', '.6-.8', '.4-.6',
+                            '.2-.4', '0-.2', ''],
+                textinfo: 'text',
+                textposition:'inside',
+                marker: {colors:['rgba(110, 154, 22, .5)',
+                                        'rgba(170, 202, 42, .5)', 'rgba(202, 209, 95, .5)',
+                                        'rgba(210, 206, 145, .5)', 'rgba(232, 226, 202, .5)',
+                                        'rgba(255, 255, 255, 0)']},
+                labels: ['.8-1', '.6-.8', '.4-.6', '.2-.4', '0-.2', ''],
+                hoverinfo: 'label',
+                hole: .5,
+                type: 'pie',
+                showlegend: false
+                }];
+
+                var layout = {
+                shapes:[{
+                    type: 'path',
+                    path: path,
+                    fillcolor: '850000',
+                    line: {
+                        color: '850000'
+                    }
+                    }],
+                title: 'R^2 Adjusted of Turnovers',
+                height: 500,
+                width: 500,
+                xaxis: {zeroline:false, showticklabels:false,
+                            showgrid: false, range: [-1, 1]},
+                yaxis: {zeroline:false, showticklabels:false,
+                            showgrid: false, range: [-1, 1]}
+                };
+
+                Plotly.newPlot('gauge', data, layout);
+            ;}
+	gauge()
+        
 	</script>
 	</body>
 </html>
