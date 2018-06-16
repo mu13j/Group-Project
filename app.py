@@ -37,6 +37,10 @@ def pass_yds():
 def rush_yds():
     return render_template('rush_yards.html')
 
+@app.route("/points")
+def points():
+    return render_template('points.html')
+
 @app.route('/data.json')
 def testdb():
     Base=declarative_base()

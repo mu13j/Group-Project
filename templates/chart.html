@@ -23,6 +23,9 @@
 			<a href='/rush_yards'>
 				<button type="button" class="btn btn-default">Rushing Yard</button>
 			</a>
+			<a href='/points'>
+				<button type="button" class="btn btn-default">Points</button>
+			</a>
 			<a href='/data.json'>
 			<button type="button" class="btn btn-default">Data</button>
 			</a>
@@ -46,8 +49,8 @@
 
 		// Various scales. These domains make assumptions of data, naturally.
 		//var xScale = d3.scale.log().domain([0, 1e5]).range([0, width]),
-		var 	xScale = d3.scale.linear().domain([0, 50]).range([0, width]),  
-				yScale = d3.scale.linear().domain([0, 50]).range([height, 0]),
+		var 	xScale = d3.scale.linear().domain([10, 50]).range([0, width]),  
+				yScale = d3.scale.linear().domain([5, 50]).range([height, 0]),
 				radiusScale = d3.scale.linear().domain([0, 50]).range([0, 100]),
 				//colorScale = d3.scale.category10();
 				colorScale = d3.scale.ordinal()
@@ -116,7 +119,7 @@
 					.attr("text-anchor", "end")
 					.attr("x", width)
 					.attr("y", height - 6)
-					.text("Turnovers");
+					.text("Takeaways");
 
 				// Add a y-axis label.
 				svg.append("text")
@@ -125,7 +128,7 @@
 					.attr("y", 6)
 					.attr("dy", ".75em")
 					.attr("transform", "rotate(-90)")
-					.text("Takeaways");
+					.text("Turnovers");
 
 				// Add the year label; the value is set on transition.
 				var label = svg.append("text")
@@ -236,8 +239,8 @@
 				name: d.team,
 				region: d.team,
 				circleSize: interpolateValues(d.win, year),
-				horizontal: interpolateValues(d.turnovers, year),
-				vertical: interpolateValues(d.takeaways, year)
+				horizontal: interpolateValues(d.takeaways, year),
+				vertical: interpolateValues(d.turnovers, year)
 			};
 			});
 		}
