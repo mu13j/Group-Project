@@ -41,8 +41,13 @@ def rush_yds():
 def points():
     return render_template('points.html')
 
+@app.route('/data')
+def data():
+    return render_template('table.html')
+
 @app.route('/data.json')
 def testdb():
+
     Base=declarative_base()
     engine= create_engine('sqlite:///nfldata.sqlite',echo=False) 
     class NFLdata(Base):
@@ -157,10 +162,60 @@ def table():
         teamseason.append(user.teamseason)
     a={'teamseason':teamseason,'team':team,'season':season,'pass_yds':pass_yds,'rush_yds':rush_yds,'opp_pass_yds':opp_pass_yd,'opp_rush_yds':opp_rush_yds,'pts':pts,'pts_against':pts_against,'takeaways':takeaways,'turnovers':turnovers,'win':win}
     return jsonify(a)
-
+@app.route('/team')
+def team():
+    
+    Base=declarative_base()
+    engine= create_engine('sqlite:///nfldata.sqlite',echo=False) 
+    class NFLdata(Base):
+        __tablename__='NFLdata'
+        teamseason=Column('teamseason',String, primary_key=True)
+        opp_pass_yd=Column('opp_pass_yd',String)
+        opp_rush_yds=Column('opp_rush_yds',String)
+        pass_yds=Column('pass_yds',String)
+        rush_yds=Column('rush_yds',String)
+        pts=Column('pts',String)
+        pts_against=Column('pts_against',String)
+        season=Column('season',String)
+        takeaways=Column('takeaways',String)
+        team=Column('team',String)
+        turnovers=Column('turnovers',String)
+        win=Column('win', String)
+    Session=sessionmaker(bind=engine)
+    session=Session()
+    users=session.query(NFLdata).all()
+    session.close()
+    opp_pass_yd=[]
+    opp_rush_yds=[]
+    pass_yds=[]
+    pts=[]
+    pts_against=[]
+    rush_yds=[]
+    season=[]
+    takeaways=[]
+    team=[]
+    turnovers=[]
+    win=[]
+    teamseason=[]
+    for user in users:
+        opp_pass_yd.append(int(user.opp_pass_yd))
+        opp_rush_yds.append(int(user.opp_rush_yds))
+        pass_yds.append(int(user.pass_yds))
+        pts.append(int(user.pts))
+        pts_against.append(int(user.pts_against))
+        rush_yds.append(int(user.rush_yds))
+        season.append(int(user.season))
+        takeaways.append(int(user.takeaways))
+        team.append(user.team)
+        turnovers.append(int(user.turnovers))
+        win.append(int(user.win))
+        teamseason.append(user.teamseason)
+    a=pd.DataFrame({'teamseason':teamseason,'team':team,'season':season,'pass_yds':pass_yds,'rush_yds':rush_yds,'opp_pass_yds':opp_pass_yd,'opp_rush_yds':opp_rush_yds,'pts':pts,'pts_against':pts_against,'takeaways':takeaways,'turnovers':turnovers,'win':win})
+    return a.to_json(orient='table')
 @app.route('/regression')
 def regression():
     return jsonify([{'passing':.3884},{'rushing':.454},{'points':.8198},{'turnover':.474}])
+
 
 if __name__ == "__main__":
     app.run(debug=True)
