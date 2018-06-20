@@ -23,6 +23,12 @@ a, a:hover, a:focus {
     transition: all 0.3s;
 }
 
+#myGauge, #myGauge:hover, #myGauge:focus {
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
 .navbar {
     padding: 15px 10px;
     background: #fff;
@@ -151,12 +157,11 @@ a.download {
 
 
 
-#chart::after {
-    background-image:url('field.jpg');
+#chart {
+    background-image:url('field.png');
     background-repeat: no-repeat;
     background-size: contain;
     background-size: cover;
-    opacity: 0.2;
 }
 
 
@@ -197,13 +202,7 @@ pointer-events: all;
 cursor: ew-resize;
 }
 
-#myH3 {
-	text-align: center;
-	text-shadow: 4px 4px 4px #aaa;
-	font-size: 50px;
-	margin: 0 0 0 30px;
-	color: #333;
-}
+
 
 /* ---------------------------------------------------
     MEDIAQUERIES

@@ -13,19 +13,25 @@
         <!--jQuery and libraries for chart-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-        
-        <!--CSS for chart-->
-        <link href='http://fonts.googleapis.com/css?family=UnifrakturMaguntia' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 
         <!-- Our Custom CSS -->
 		<link rel="stylesheet" href="static/style.css">
 		
-		<!-- jQuery CDN for html styling -->
-		<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 		<!-- Bootstrap Js CDN for html styling-->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="static/d3.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <!--Datatables CSS-->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css">
+
+    </head>
+
+        <!--JS for Datatables-->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
+
+		<!--D3-->
+        <script src="static/d3.js"></script>
+
+
     </head>
     <body>
 
@@ -40,19 +46,21 @@
 
                 <ul class="list-unstyled components">
                     <li>
-                        <a href="#">Synopsis</a>
+                        <a href="/synopsis">Synopsis</a>
                     </li>
                     <li class="active">
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Visualizations</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
-                            <li><a href="/">Turnovers</a></li>
+                            <li><a href="/turnovers">Turnovers</a></li>
                             <li><a href="/pass_yards">Passing Yards</a></li>
 							<li><a href="/rush_yards">Rushing Yards</a></li>
 							<li><a href="/points">Points</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="/data">Data</a>
+                            <a href="/data.json">Data</a>
+                            <a href="/data">Table</a>
+                            <a href="https://github.com/mu13j/Group-Project">GitHub Repository</a>
                     </li>
                     <li>
                         <a href= "#pageSubmenu" data-toggle="collapse" aria-expanded="false">Group Members</a>
@@ -83,28 +91,100 @@
                         <div class="navbar-header">
                             <button type="button" id="sidebarCollapse" class="btn btn-primary navbar-btn">
                                 <i class="glyphicon glyphicon-align-left"></i>
-                                <span>Toggle Sidebar</span>
+                                <span>Menu</span>
                             </button>
                         </div>
 
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#">Page</a></li>
-                                <li><a href="#">Page</a></li>
-                                <li><a href="#">Page</a></li>
-                                <li><a href="#">Page</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </nav>
 
-                <h2>Collapsible Sidebar Using Bootstrap 3</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <h3>Interactive Table</h3>
+                <p>Sort, search and refine our raw json data using this table format.</p>
+     
 
                 <div class="line"></div>
 
-                <div id="chart"></div>
+                <div class="table-responsive">
+                        <table class="table table-striped" id = "myTable">
+                          <thead>
+                            <tr>
+                              <th>Index</th>
+                              <th>Opp_Pass_Yds</th>
+                              <th>Opp_Rush_Yds</th>
+                              <th>Pass_Yds</th>
+                              <th>Pts</th>
+                              <th>Pts_Against</th>
+                              <th>Rush_Yds</th>
+                              <th>Season</th>
+                              <th>Takeaways</th>
+                              <th>Team</th>
+                              <th>Team/Season</th>
+                              <th>Turnovers</th>
+                              <th>Wins</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                    </div>
+                  </div>
+                  <script>
+                    // Get references to the tbody element
+                    var $tbody = document.querySelector("tbody");
+                    // Get references for input fields 
+                    var $dateInput = document.querySelector("#date");
+                    var $cityInput = document.querySelector("#city");
+                    var $stateInput = document.querySelector("#state");
+                    var $countryInput = document.querySelector("#country");
+                    var $shapeInput  = document.querySelector("#shape");
+                    // Get references for buttons
+                    var $searchBtn = document.querySelector("#search");
+                    var $resetBtn = document.querySelector("#reset");
+                    var $leftBtn = document.querySelector('#left');
+                    var $rightBtn = document.querySelector('#right');
+                    // Set filteredAddresses to addressData initially
+                    d3.json('team',function(error,response){
+                      var filteredAddresses = response['data'];
+
+                                      
+                $(document).ready( function () {
+                    $('#myTable').DataTable();
+                } );                    
+
+                      function renderTable() {
+                        $tbody.innerHTML = "";
+                        for (var i = 0; i < filteredAddresses.length; i++) {
+                          // Get get the current address object and its fields
+                          var address = filteredAddresses[i];
+                          var fields = Object.keys(address);
+                          // Create a new row in the tbody, set the index to be i + startingIndex
+                          var $row = $tbody.insertRow(i);
+                          for (var j = 0; j < fields.length; j++) {
+                            // For every field in the address object, create a new cell at set its inner text to be the current value at the current address's field
+                            var field = fields[j];
+                            var $cell = $row.insertCell(j);
+                            $cell.innerText = address[field];
+                          }
+                        }
+                      }
+                    
+
+                      renderTable();
+                      })
+                
+                    
+                
+                  </script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+</script>
 
                 <div class="line"></div>
 
@@ -114,73 +194,9 @@
 
             </div>
         </div>
-  <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Index</th>
-              <th>Opp_Pass_Yds</th>
-              <th>Opp_Rush_Yds</th>
-              <th>Pass_Yds</th>
-              <th>Pts</th>
-              <th>Pts_Against</th>
-              <th>Rush_Yds</th>
-              <th>Season</th>
-              <th>Takeaways</th>
-              <th>Team</th>
-              <th>Team/Season</th>
-              <th>Turnovers</th>
-              <th>Wins</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-    </div>
-  </div>
-  <script>
-    // Get references to the tbody element
-    var $tbody = document.querySelector("tbody");
-    // Get references for input fields 
-    var $dateInput = document.querySelector("#date");
-    var $cityInput = document.querySelector("#city");
-    var $stateInput = document.querySelector("#state");
-    var $countryInput = document.querySelector("#country");
-    var $shapeInput  = document.querySelector("#shape");
-    // Get references for buttons
-    var $searchBtn = document.querySelector("#search");
-    var $resetBtn = document.querySelector("#reset");
-    var $leftBtn = document.querySelector('#left');
-    var $rightBtn = document.querySelector('#right');
-    // Set filteredAddresses to addressData initially
-    d3.json('team',function(error,response){
-      var filteredAddresses = response['data']
-      function renderTable() {
-        $tbody.innerHTML = "";
-        for (var i = 0; i < filteredAddresses.length; i++) {
-          // Get get the current address object and its fields
-          var address = filteredAddresses[i];
-          var fields = Object.keys(address);
-          // Create a new row in the tbody, set the index to be i + startingIndex
-          var $row = $tbody.insertRow(i);
-          for (var j = 0; j < fields.length; j++) {
-            // For every field in the address object, create a new cell at set its inner text to be the current value at the current address's field
-            var field = fields[j];
-            var $cell = $row.insertCell(j);
-            $cell.innerText = address[field];
-          }
-        }
-      }
-      renderTable();
-      })
-  </script>
-  <script type="text/javascript">
-    $(document).ready(function () {
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-        });
-    });
-</script>
+    
+        
+  
 </body>
 
 </html>

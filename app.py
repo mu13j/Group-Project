@@ -27,7 +27,15 @@ def setup():
 
 @app.route("/")
 def index():
+    return render_template('synopsis.html')
+
+@app.route("/turnovers")
+def turnovers():
     return render_template('chart.html')
+
+@app.route("/synopsis")
+def synopsis():
+    return render_template('synopsis.html')
 
 @app.route("/pass_yards")
 def pass_yds():

@@ -13,20 +13,18 @@
         <!--jQuery and libraries for chart-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-        
-        <!--CSS for chart-->
-        <link href='http://fonts.googleapis.com/css?family=UnifrakturMaguntia' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 
         <!-- Our Custom CSS -->
 		<link rel="stylesheet" href="static/style.css">
 		
-		<!-- jQuery CDN for html styling -->
-		<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 		<!-- Bootstrap Js CDN for html styling-->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    </head>
+
 		<!-- Plotly for gauge-->
 		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 
     </head>
     <body>
@@ -42,20 +40,22 @@
 
                 <ul class="list-unstyled components">
                     <li>
-                        <a href="#">Synopsis</a>
+                        <a href="/synopsis">Synopsis</a>
                     </li>
                     <li class="active">
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Visualizations</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
-                            <li><a href="/">Turnovers</a></li>
+                            <li><a href="/turnovers">Turnovers</a></li>
                             <li><a href="/pass_yards">Passing Yards</a></li>
 							<li><a href="/rush_yards">Rushing Yards</a></li>
 							<li><a href="/points">Points</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="/data">Data</a>
-                    </li>
+							<a href="/data.json">Data</a>
+							<a href="/data">Table</a>
+							<a href="https://github.com/mu13j/Group-Project">GitHub Repository</a>
+					</li>
                     <li>
                         <a href= "#pageSubmenu" data-toggle="collapse" aria-expanded="false">Group Members</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu">
@@ -85,24 +85,26 @@
                         <div class="navbar-header">
                             <button type="button" id="sidebarCollapse" class="btn btn-primary navbar-btn">
                                 <i class="glyphicon glyphicon-align-left"></i>
-                                <span>Toggle Sidebar</span>
+                                <span>Menu</span>
                             </button>
                         </div>
 
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#">Page</a></li>
-                                <li><a href="#">Page</a></li>
-                                <li><a href="#">Page</a></li>
-                                <li><a href="#">Page</a></li>
+								<!-- Trigger the modal with a button -->
+                                <li>	
+									<button type="button" class="btn btn-primary navbar-btn" id = "myGauge"
+									data-toggle="modal" data-target="#myModal" onclick="gauge()">Accuracy Gauge</button>
+								</li>
+                            
                             </ul>
                         </div>
                     </div>
                 </nav>
 
-                <h2>Collapsible Sidebar Using Bootstrap 3</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <h3>Passing Yards vs. Passing Yards Allowed</h3>
+                <p> Vizualizing wins (size of bubble) on one axis of the offensive statistic and another 
+					axis of the defensive statistic. </p>
 
                 <div class="line"></div>
 
@@ -116,7 +118,6 @@
 
             </div>
         </div>
-	<div id='gauge'></div>
 	<script src="static/d3.js"></script>
 	<script>
 		// Various accessors that specify the four dimensions of data to visualize.
@@ -405,14 +406,37 @@
 
                 Plotly.newPlot('gauge', data, layout);
             ;}
-	gauge()
 	</script>
-	<script type="text/javascript">
-		$(document).ready(function () {
-			$('#sidebarCollapse').on('click', function () {
-				$('#sidebar').toggleClass('active');
-			});
-		});
-	</script>
-	</body>
-</html>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+	  
+		  <!-- Modal content-->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">How accurate was this predictor?</h4>
+			</div>
+			<!--Plot guage in modal-->
+			<div class="modal-body" id='gauge'></div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
+	  
+		</div>
+	  </div>
+	  
+	  
+		  <!--Collapse sidebar-->
+		  <script type="text/javascript">
+		  $(document).ready(function () {
+			  $('#sidebarCollapse').on('click', function () {
+				  $('#sidebar').toggleClass('active');
+			  });
+		  });
+		  </script>
+	  
+		  </body>
+	  </html>
