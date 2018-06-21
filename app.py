@@ -53,6 +53,10 @@ def points():
 def data():
     return render_template('table.html')
 
+@app.route('/calculator')
+def calculator():
+    return render_template('calculator.html')
+
 @app.route('/data.json')
 def testdb():
 

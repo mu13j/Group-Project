@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Win Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <div class="row margin-top-50">
+        <div class="col-md-12">
+          <aside class="filter">
+            <div class="panel panel-default">
+              <div class="panel-heading">Wins Calculator</div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <label for="date-search">Opponent's Passing Yards</label>
+                      <input class="form-control" id="opp_pass" type="text" value=3400>
+                    </li>
+                    <li class="list-group-item">
+                      <label for="city-search">Opponent's Rushing Yards</label>
+                      <input class="form-control" id="opp_rush" type="text" value=1800>
+                    </li>
+                    <li class="list-group-item">
+                      <label for="state-search">Passing Yards</label>
+                      <input class="form-control" id="pass" type="text" value=3400>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="state-search">Rushing Yards</label>
+                        <input class="form-control" id="rush" type="text" value=1800>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="state-search">Points</label>
+                        <input class="form-control" id="pts" type="text" value=340>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="state-search">Points Against</label>
+                        <input class="form-control" id="pts_against" type="text" value=340>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="state-search">Takeaways</label>
+                        <input class="form-control" id="take" type="text" value=28>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="state-search">Giveaways</label>
+                        <input class="form-control" id="give" type="text" value=28>
+                    </li>
+
+                    <li class="list-group-item">
+                      <button id="filter-submit" class="btn btn-success">Calculate Wins</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <h1 style='text-align:center'>Expected Wins:</h1>
+    <h1 id='calculation' style='text-align:center'>8</h1>
+  </div>
+  <script src="static/calculator.js"></script>
+</body>
+
+</html>
