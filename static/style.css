@@ -189,17 +189,29 @@ fill: #777;
 .year.label {
 font: 500 196px "Helvetica Neue";
 
-fill: #ddd;
+fill: #aaa;
 }
 
 .year.label.active {
-fill: #aaa;
+fill: #777;
 }
 
 .overlay {
 fill: none;
 pointer-events: all;
 cursor: ew-resize;
+}
+
+#myH3 {
+    font-family: 'Times New Roman', Times, serif
+}
+
+#myOL{
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;  
 }
 
 
