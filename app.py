@@ -57,6 +57,15 @@ def data():
 def calculator():
     return render_template('calculator.html')
 
+@app.route("/multiline")
+def multiline():
+    return render_template('multiline.html')
+
+@app.route('/data.csv')
+def csv():
+    a=pd.read_csv('data.csv')
+    return a.to_json(orient='records')
+
 @app.route('/data.json')
 def testdb():
 
