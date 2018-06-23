@@ -134,3 +134,7 @@
       .gravity td { text-align: center; vertical-align: middle; padding: 5px 0; background-color: #d0d0d0; width: 33%; }
       .gravity a { }
         .gravity a:hover { color: #505050; background: none; }
+
+    #headline{
+      color: black;
+    }
